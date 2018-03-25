@@ -66,20 +66,30 @@ public class DaneOsobowe implements HierarchicalController<MainController> {
 
 
             } else if ("nazwisko".equals(studentTableColumn.getId())) {
-                studentTableColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+                TableColumn<Student, String> nazwiskoColumn = (TableColumn<Student, String>) studentTableColumn;
+                nazwiskoColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+                nazwiskoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                nazwiskoColumn.setOnEditCommit((val) -> {
+                    val.getTableView().getItems().get(val.getTablePosition().getRow()).setSurname(val.getNewValue());
+                });
 
 
 
             } else if ("pesel".equals(studentTableColumn.getId())) {
-                studentTableColumn.setCellValueFactory(new PropertyValueFactory<>("pesel"));
                 TableColumn<Student, String> peselColumn = (TableColumn<Student, String>) studentTableColumn;
+                peselColumn.setCellValueFactory(new PropertyValueFactory<>("pesel"));
                 peselColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
+                peselColumn.setOnEditCommit((val) -> {
+                    val.getTableView().getItems().get(val.getTablePosition().getRow()).setPesel(val.getNewValue());
+                });
 
             } else if ("indeks".equals(studentTableColumn.getId())) {
-                studentTableColumn.setCellValueFactory(new PropertyValueFactory<>("idx"));
-                TableColumn<Student, String> indColumn = (TableColumn<Student, String>) studentTableColumn;
-                indColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                TableColumn<Student, String> idxColumn = (TableColumn<Student, String>) studentTableColumn;
+                idxColumn.setCellValueFactory(new PropertyValueFactory<>("idx"));
+                idxColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                idxColumn.setOnEditCommit((val) -> {
+                    val.getTableView().getItems().get(val.getTablePosition().getRow()).setIdx(val.getNewValue());
+                });
             }
         }
 

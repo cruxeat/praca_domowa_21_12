@@ -57,23 +57,18 @@ public class Oceny implements HierarchicalController<MainController> {
                     val.getTableView().getItems().get(val.getTablePosition().getRow()).setName(val.getNewValue());
                 });
             } else if ("nazwisko".equals(studentTableColumn.getId())) {
-                studentTableColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
                 TableColumn<Student, String> nazwiskoColumn = (TableColumn<Student, String>) studentTableColumn;
+                nazwiskoColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
                 nazwiskoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
+                nazwiskoColumn.setOnEditCommit((val) -> {
+                    val.getTableView().getItems().get(val.getTablePosition().getRow()).setSurname(val.getNewValue());
+                });
 
             } else if ("ocena".equals(studentTableColumn.getId())) {
                 TableColumn<Student, Double> ocenaColumn = (TableColumn<Student, Double>) studentTableColumn;
                 ocenaColumn.setCellValueFactory(new PropertyValueFactory<>("grade"));
 
-                ObservableList<String> options = FXCollections.observableArrayList(
-                                "1",
-                                "2",
-                                "3",
-                                "4",
-                                "5",
-                                "6"
-                        );
+                ObservableList<Double> options = FXCollections.observableArrayList(1.0,2.0, 3.0, 4.0, 5.0, 6.0 );
 
 
                 ocenaColumn.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<Double>(){
@@ -86,7 +81,7 @@ public class Oceny implements HierarchicalController<MainController> {
                     public Double fromString(String string) {
                         return (string == null || string.isEmpty()) ? null : Double.parseDouble(string);
                     }
-                }));
+                }, options));
 
                 ocenaColumn.setOnEditCommit((val) -> {
                     val.getTableView().getItems().get(val.getTablePosition().getRow()).setGrade(val.getNewValue());
@@ -94,8 +89,12 @@ public class Oceny implements HierarchicalController<MainController> {
 
 
             } else if ("opisOceny".equals(studentTableColumn.getId())) {
-                studentTableColumn.setCellValueFactory(new PropertyValueFactory<>("gradeDetailed"));
-                ((TableColumn<Student, String>) studentTableColumn).setCellFactory(TextFieldTableCell.forTableColumn());
+                TableColumn<Student, String> opisColumn = (TableColumn<Student, String>) studentTableColumn;
+                opisColumn.setCellValueFactory(new PropertyValueFactory<>("gradeDetailed"));
+                opisColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+                opisColumn.setOnEditCommit((val) -> {
+                    val.getTableView().getItems().get(val.getTablePosition().getRow()).setGradeDetailed(val.getNewValue());
+                });
             }
         }
 
